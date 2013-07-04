@@ -56,15 +56,15 @@ class LoopAll {
   std::vector<CounterContainer> counterContainer;
   std::vector<SampleContainer> sampleContainer;
   std::vector<Cut> cutContainer;
-  //std::vector<TreeContainer> treeContainer;	 
-  std::map<std::string, std::vector<TreeContainer> > treeContainer;	 
+  //std::vector<TreeContainer> treeContainer;
+  std::map<std::string, std::vector<TreeContainer> > treeContainer;
 
   RooContainer *rooContainer;
   Normalization_8TeV *signalNormalizer;
-  
+
   LoopAll(TTree *tree=0);
   virtual ~LoopAll();
-  
+
   virtual Int_t    GetEntry(Long64_t entry);
   virtual Long64_t LoadTree(Long64_t entry);
   virtual void   Init(Int_t typerunpass, TTree *tree);
@@ -77,14 +77,14 @@ class LoopAll {
 
   void LoopAndFillHistos(TString treename="event");
   void MergeContainers();
-  //void WriteHist();  
-  //void WriteFits();  
-  //void WriteCounters();  
+  //void WriteHist();
+  //void WriteFits();
+  //void WriteCounters();
 
   /** @param type is the type of the analysis:
              0 for looper.py (filling histograms)
              1 for reduce.py (reduction step)
-      @param n is the name of the output file 
+      @param n is the name of the output file
   */
   void SetTypeRun(int type, const char* n);
 
@@ -92,7 +92,7 @@ class LoopAll {
   void StoreProcessedLumis(TTree * tree);
   void AddFile(std::string,int);
   void ReadInput(int t=0);
-  
+
   void SetSubJob(bool);
 
   /** adds a new entry to sampleContainer and returns a reference
@@ -103,10 +103,10 @@ class LoopAll {
 				  float lumi, float xsec, float kfactor,
 				  float scale, bool addnevents=false, TString pileup="");
 
-  void Term(); 
+  void Term();
 
   void checkDuty(int n, float thr, float start) { checkBench=n; benchThr=thr; benchStart=start; }
-  
+
   int checkBench;
   TStopwatch stopWatch;
   float benchThr, benchStart;
@@ -126,7 +126,7 @@ class LoopAll {
   bool makeDummyTrees;
   std::string cicVersion;
   bool usePFCiC;
-  
+
   std::vector<TTree*> Trees;
   std::vector<TTree*> LumiTrees;
   std::vector<TFile*> Files;
@@ -161,19 +161,19 @@ class LoopAll {
   // global parameters
   Int_t tot_events, sel_events, type, version, reductions;
 
-  std::vector<std::string>  globalCountersNames; 
-  std::vector<int> globalCounters; 
+  std::vector<std::string>  globalCountersNames;
+  std::vector<int> globalCounters;
   std::vector<int> fileGlobalCounters;
-  
+
   Int_t        outputParTot_Events, outputParSel_Events, outputParType, outputParVersion, outputParReductions, outputParRed_Events[20];
   std::vector<std::string>* outputParParameters;
   std::string* outputParJobMaker;
 
   Int_t currentindexfiles;
-  
+
   std::vector<Float_t> counters;
   std::vector<Float_t> countersred;
-   
+
   TFile *hfile;
   Int_t outputEvents;
 
@@ -181,9 +181,9 @@ class LoopAll {
   void WriteHist();
   void WriteFits();
   void WriteCounters();
-  
+
   int FillAndReduce(int);
-  
+
   //void BookHistos();
   void AddCut(char*,int,int,int,float*,float*);
   void InitCounters();
@@ -193,7 +193,7 @@ class LoopAll {
   int ApplyCut(int, float, int);
   int ApplyCut(std::string, float, int);
   void FillCutPlots(int icat, int cutset, std::string postfix, float histweight, float countweight);
-  
+
   void myPrintCounters();
   void myPrintCountersNew();
 
@@ -201,8 +201,8 @@ class LoopAll {
                            float, float, float, float, const char*,
 			   const char* xaxis="", const char* yaxis="");
 
-  
-  // Cut down (flat) trees for MVA Training 
+
+  // Cut down (flat) trees for MVA Training
   void InitTrees(std::string);
   void BookTreeBranch(std::string name, int type, std::string dirName="");
   template <class T> void BookExternalTreeBranch(const char * name, T* addr, std::string dirName) {
@@ -222,7 +222,7 @@ class LoopAll {
 		  treeContainer[dirName][ind].AddExternalBranch<T>(name,addr,bufsize,splitlevel);
 	  }
   }
-    
+
 
   void FillTreeContainer(std::string dir="");
 
@@ -232,7 +232,7 @@ class LoopAll {
   void FillTree(std::string name, unsigned int x, std::string dirName="");
   void FillTree(std::string name, std::string x, std::string dirName="");
   void FillTree(std::string name, bool x, std::string dirName="");
- 
+
   void WritePI();
   void AddCut2(char*, int, int, int, float*, float*, int, int, int, float, float, char*, char*);
 
@@ -248,35 +248,35 @@ class LoopAll {
   int ApplyCut(int icut, int * passcategory); //returns the number of categories
   //DON'T USE THE FOLLOWING ONE, IT MAY BE CONFUSING
   int ApplyCut(TString cutname, int * passcategory); //returns the number of categories
-  
+
   int ApplyCutsFill(int icat, int cutset, int & ncutsapplied, int & ncutspassed,  int & ncutsfailed, float histweight=1.0, float countweight=1.0);
   int ApplyCuts(int icat, int cutset, int & ncutsapplied, int & ncutspassed,  int & ncutsfailed);
   int ApplyCutsFill(int icat, int cutset, float histweight=1.0, float countweight=1.0);
   int ApplyCuts(int icat, int cutset);
-  
+
   //DON'T USE THE FOLLOWING ONE, IT MAY BE CONFUSING
   int ApplyCuts(int cutset, int * passcategory, int * ncutsapplied, int * ncutspassed,  int * ncutsfailed); //returns the number of categories
   //DON'T USE THE FOLLOWING ONE, IT MAY BE CONFUSING
   int ApplyCuts(int cutset, int * passcategory); //returns the number of categories
-  
+
   int SetCutVariables(int i, float * variables);
-  int SetCutVariables(TString cutname, float * variables);  
+  int SetCutVariables(TString cutname, float * variables);
 
   void FillHist(std::string, float);
   void FillHist2D(std::string, float, float);
 
-  void FillHist(std::string, int, float, float wt = 1.0); 
+  void FillHist(std::string, int, float, float wt = 1.0);
   void FillHist2D(std::string, int, float, float, float wt = 1.0);
 
   void FillCounter(std::string name, float weight=1., int cat=0);
 
-  BaseAnalysis* AddAnalysis(BaseAnalysis*); 
+  BaseAnalysis* AddAnalysis(BaseAnalysis*);
   template<class T> T * GetAnalysis( const std::string & name ) {
 	  std::vector<BaseAnalysis*>::iterator it=find( analyses.begin(), analyses.end(), name);
 	  if( it != analyses.end() ) { return dynamic_cast<T*>( *it ); }
 	  return 0;
   }
-  
+
   /// void SkimBranch(const std::string & name)   { skimBranchNames.insert(name);  };
   void InputBranch(const std::string & name, int typ)  { inputBranchNames.insert(std::pair<std::string,int>(name,typ)); };
   void OutputBranch(const std::string & name) { if( find(outputBranchNames.begin(), outputBranchNames.end(), name)==outputBranchNames.end() ) { outputBranchNames.push_back(name); } };
@@ -295,7 +295,7 @@ class LoopAll {
   typedef void (LoopAll::*branch_io_t) (TTree *);
   struct branch_info_t {
 	  branch_info_t(TBranch ** b=0, branch_io_t r=0, branch_io_t w=0 ) :
-		  branch(b), read(r), write(w) 
+		  branch(b), read(r), write(w)
 		  {};
 	  TBranch ** branch;
 	  branch_io_t read, write;
@@ -305,16 +305,16 @@ class LoopAll {
 #endif
 
   //// std::set<std::string> skimBranchNames;
-  //// std::set<TBranch *> skimBranches; 
+  //// std::set<TBranch *> skimBranches;
   std::map<std::string,int> inputBranchNames;
-  std::set<TBranch *> inputBranches; 
+  std::set<TBranch *> inputBranches;
   std::list<std::string> outputBranchNames;
-  
+
   /** list of the analyses to be performed */
   std::vector<BaseAnalysis*> analyses;
 
   float pfTkIsoWithVertex(int phoindex, int vtxInd, float dRmax, float dRvetoBarrel, float dRvetoEndcap, float ptMin, float dzMax, float dxyMax, int pfToUse=1);
-  float pfEcalIso(int phoindex, float dRmax, float dRVetoBarrel, float dRVetoEndcap, float etaStripBarrel, float etaStripEndcap, 
+  float pfEcalIso(int phoindex, float dRmax, float dRVetoBarrel, float dRVetoEndcap, float etaStripBarrel, float etaStripEndcap,
 		  float thrBarrel, float thrEndcaps, int pfToUse=4);
 
   TMVA::Reader *tmvaReaderID_UCSD, * tmvaReader_dipho_UCSD;
@@ -349,7 +349,7 @@ class LoopAll {
   Float_t tmva_id_ucsd_ptom;
   Float_t tmva_id_ucsd_eta;
   Float_t tmva_id_ucsd_isLeading;
-  
+
   Float_t tmva_dipho_UCSD_subleadptomass;
   Float_t tmva_dipho_UCSD_diphoptom;
   Float_t tmva_dipho_UCSD_sumptom;
@@ -378,7 +378,7 @@ class LoopAll {
   Float_t tmva_id_mit_nvtx;
   Float_t tmva_id_mit_sceta;
   Float_t tmva_id_mit_preshower;
- 
+
   Float_t tmva_dipho_MIT_dmom;
   Float_t tmva_dipho_MIT_dmom_wrong_vtx;
   Float_t tmva_dipho_MIT_vtxprob;
@@ -396,7 +396,7 @@ int GlobeMatchIsl(TLorentzVector*, Float_t&);
 
 enum eIDLevel {UltraLoose, VeryLoose, Loose, Medium, Tight, SuperTight, HyperTight1, HyperTight2, HyperTight3, HyperTight4, Robust};
 int ElectronClassification(int);
-std::pair<bool, bool> ElectronId(int, eIDLevel); 
+std::pair<bool, bool> ElectronId(int, eIDLevel);
 void eIDInfo(Int_t, Int_t&, Int_t&,Int_t eIDMaxLevel=10);
 Float_t sipCalculator(int);
 
@@ -417,7 +417,7 @@ void vertexAnalysis(HggVertexAnalyzer & vtxAna,  PhotonInfo pho1, PhotonInfo pho
 
 /** @return the indices of the vertices ranked by some algorithm */
 std::vector<int> vertexSelection(HggVertexAnalyzer & vtxAna, HggVertexFromConversions & vtxAnaFromConv, PhotonInfo & pho1, PhotonInfo & pho2,
-				 std::vector<std::string> & vtxVarNames, 					  
+				 std::vector<std::string> & vtxVarNames,
 				 bool useMva=false, TMVA::Reader * reader=0, std::string tmvaMethod="");
 
 //----------------------------------------
@@ -425,7 +425,7 @@ bool FindMCLeptons(int index, int& mc1, int& mc2, int& pho, int leptonType=11);
 bool FindMCHiggsPhotons(int& higgsind, int& mc1, int& mc2, int& i1, int& i2  );
 bool FindMCVBF(int higgsind, int& vbfq1, int& vbfq2 );
 bool FindMCVH(int higgsind, int& vh, int& vh1, int& vh2 );
-TLorentzVector GetHiggs() 
+TLorentzVector GetHiggs()
 {
 	TLorentzVector  gP4(0,0,0,0);
 	assert(gh_higgs_p4 != 0 || gp_p4 != 0);
@@ -439,7 +439,7 @@ TLorentzVector GetHiggs()
 		}
 	    }
 	}
-	return gP4; 
+	return gP4;
 };
 
 /** @return the photon four momentum calculated with respect to the given interaction vertex (??) */
@@ -447,7 +447,7 @@ TLorentzVector get_pho_p4(int ipho, int ivtx, const float *pho_energy_array=0) c
 TLorentzVector get_pho_p4(int ipho, TVector3 * vtx, const float * energy=0) const ;
 void set_pho_p4(int ipho, int ivtx, float *pho_energy_array=0);
 double get_pho_zposfromconv(TVector3 convvtx, TVector3 superclustervtx, TVector3 beamSpot);
-// end vertex analysis 
+// end vertex analysis
 
 void FillCICPFInputs();
 void FillCICInputs();
@@ -461,7 +461,7 @@ enum phoCiCCuts { phoISOSUMOET=0,  phoISOSUMOETBAD,   phoTRKISOOETOM,   phoSIEIE
 enum phoCiC6Categories { phoCiC6EBhighR9=0, phoCiC6EBmidR9, phoCiC6EBlowR9, phoCiC6EEhighR9, phoCiC6EEmidR9, phoCiC6EElowR9, phoCiC6NCATEGORIES };
 enum phoCiC4Categories { phoCiC4EBhighR9=0, phoCiC4EBlowR9, phoCiC4EEhighR9, phoCiC4EElowR9, phoCiC4NCATEGORIES };
 
-/** @param cutlevel           (input) is the required level of the cuts (e.g. phoSUPERTIGHT) 
+/** @param cutlevel           (input) is the required level of the cuts (e.g. phoSUPERTIGHT)
     @param cic6_cuts_lead     (output) will be filled with the CIC6 cut values for the LEADING photon
     @param cic6_cuts_sublead, (output) will be filled with the CIC6 cut values for the SUBLEADING photon
     @param cic4_cuts_lead     (output) will be filled with the CIC4 cut values for the LEADING photon
@@ -549,13 +549,13 @@ float cic4pf_cut_sublead_pixel[phoNCUTLEVELS][4];
 
 /** loops through photons and returns indices to two photons passing desired selection .
     if more than one diphoton passes, returns pair with highest lead photon pt, or if lead is same, with highest sublead pt. */
-int DiphotonCiCSelection( phoCiCIDLevel LEADCUTLEVEL = phoLOOSE, 
-                          phoCiCIDLevel SUBLEADCUTLEVEL = phoLOOSE, 
-                          Float_t leadPtMin = 30, 
-                          Float_t subleadPtMin = 20, 
-                          int ncategories=6, 
-                          bool applyPtoverM=false, 
-                          float *pho_energy_array=0, 
+int DiphotonCiCSelection( phoCiCIDLevel LEADCUTLEVEL = phoLOOSE,
+                          phoCiCIDLevel SUBLEADCUTLEVEL = phoLOOSE,
+                          Float_t leadPtMin = 30,
+                          Float_t subleadPtMin = 20,
+                          int ncategories=6,
+                          bool applyPtoverM=false,
+                          float *pho_energy_array=0,
                           bool split=false, int fixedvtx=-1, std::vector<bool> veto_indices=std::vector<bool>(false),
                           std::vector<int> cutsbycat=std::vector<int>(0));
 
@@ -569,11 +569,11 @@ int DiphotonMITPreSelection2011(Float_t leadPtMin, Float_t subleadPtMin, Float_t
 
     @param ph_passcut will contain flags which cuts the given photon
            passes. The first index is the level of the selection
-           looked at, the second index is the index of the cut. 
+           looked at, the second index is the index of the cut.
            Will be automatically resized.
 
     @param doSublead zero, if the cuts for the leading photon
-           should be applied, non-zero if the cuts for the 
+           should be applied, non-zero if the cuts for the
            subleading photon should be applied.
 
  */
@@ -593,7 +593,7 @@ Float_t SumTrackPtInCone(TLorentzVector *photon_p4, Int_t vtxind, Float_t PtMin=
 
 //----------------------------------------------------------------------
 /** photon category functions (r9 and eta) */
-int PhotonCategory(int photonindex, int n_r9cat=3, int n_etacat=2) { 
+int PhotonCategory(int photonindex, int n_r9cat=3, int n_etacat=2) {
 
 
   // example: n_r9cat = 2 and n_etacat = 2
@@ -607,7 +607,7 @@ int PhotonCategory(int photonindex, int n_r9cat=3, int n_etacat=2) {
 //----------------------------------------------------------------------
 
 /** @return the photon R9 category number */
-Int_t PhotonR9Category(int photonindex, int n_r9cat=3, float r9boundary=0.94) { 
+Int_t PhotonR9Category(int photonindex, int n_r9cat=3, float r9boundary=0.94) {
   if(photonindex < 0) return -1;
   if(n_r9cat<2)return 0;
   int r9cat=0;
@@ -700,7 +700,7 @@ double DeltaPhi(double,double);
 /// Missing and addition branches
 ///
 
-// Higgs and company 
+// Higgs and company
 Int_t gh_gen2reco1;
 Int_t gh_gen2reco2;
 Int_t gh_vbfq1_pdgid;
@@ -711,6 +711,8 @@ Int_t gh_vh2_pdgid;
 TClonesArray *gh_higgs_p4;
 TClonesArray *gh_pho1_p4;
 TClonesArray *gh_pho2_p4;
+TClonesArray *gh_glu1_p4;
+TClonesArray *gh_glu2_p4;
 TClonesArray *gh_vbfq1_p4;
 TClonesArray *gh_vbfq2_p4;
 TClonesArray *gh_vh1_p4;
@@ -718,9 +720,9 @@ TClonesArray *gh_vh2_p4;
 //TClonesArray *METcorrected;  //met at analysis step
 
 Float_t rho;
-Int_t gv_n; 
-TClonesArray * gv_pos; 
-Int_t pu_n; 
+Int_t gv_n;
+TClonesArray * gv_pos;
+Int_t pu_n;
 std::vector<float> * pu_zpos;
 std::vector<float> * pu_sumpt_lowpt;
 std::vector<float> * pu_sumpt_highpt;
@@ -783,6 +785,8 @@ TBranch *b_gh_vh2_pdgid;
 TBranch *b_gh_higgs_p4;
 TBranch *b_gh_pho1_p4;
 TBranch *b_gh_pho2_p4;
+TBranch *b_gh_glu1_p4;
+TBranch *b_gh_glu2_p4;
 TBranch *b_gh_vbfq1_p4;
 TBranch *b_gh_vbfq2_p4;
 TBranch *b_gh_vh1_p4;
@@ -859,15 +863,15 @@ bool runCiC;
 
 /** cut levels of CIC photon identification (stored in the tree).
     The first index is the index of the photon object (0..pho_n-1),
-    the second index is the index of the vertex (0..vtx_std_n-1) 
-    with respect to which the id is calculated. 
+    the second index is the index of the vertex (0..vtx_std_n-1)
+    with respect to which the id is calculated.
 
     The contents are the return values of the function
     PhotonCiCSelectionLevel(..)
 */
 
 Int_t mu_glo_hasgsftrack[MAX_MUONS];
-  
+
 std::vector<std::vector<Short_t> >* pho_cic6cutlevel_lead;
 std::vector<std::vector<std::vector<UInt_t> > >* pho_cic6passcuts_lead;
 std::vector<std::vector<Short_t> >* pho_cic6cutlevel_sublead;
@@ -918,7 +922,7 @@ TBranch * b_pho_ZeeVal_tkiso_badvtx_id;
 TBranch * b_pho_drtotk_25_99;
 
 TBranch * b_mu_glo_hasgsftrack;
-  
+
 TBranch * b_pho_cic6cutlevel_lead;
 TBranch * b_pho_cic6passcuts_lead;
 TBranch * b_pho_cic6cutlevel_sublead;
@@ -957,57 +961,61 @@ void Branch_fsr_eta(TTree* tree) { tree->Branch("fsr_eta", &fsr_eta, "fsr_eta[10
 void Branch_fsr_phi(TTree* tree) { tree->Branch("fsr_phi", &fsr_phi, "fsr_phi[100]/F"); };
 void Branch_higgs(TTree* tree) { tree->Branch("higgs", "TLorentzVector", &higgs, 32000, 0); };
 
-void SetBranchAddress_mc_et(TTree * tree) { tree->SetBranchAddress("mc_et", &mc_et, &b_mc_et); }; 
-void SetBranchAddress_mc_eta(TTree * tree) { tree->SetBranchAddress("mc_eta", &mc_eta, &b_mc_eta); }; 
-void SetBranchAddress_mc_phi(TTree * tree) { tree->SetBranchAddress("mc_phi", &mc_phi, &b_mc_phi); }; 
-void SetBranchAddress_fsr_et(TTree * tree) { tree->SetBranchAddress("fsr_et", &fsr_et, &b_fsr_et); }; 
-void SetBranchAddress_fsr_eta(TTree * tree) { tree->SetBranchAddress("fsr_eta", &fsr_eta, &b_fsr_eta); }; 
-void SetBranchAddress_fsr_phi(TTree * tree) { tree->SetBranchAddress("fsr_phi", &fsr_phi, &b_fsr_phi); }; 
-void SetBranchAddress_higgs(TTree * tree) { tree->SetBranchAddress("higgs", &higgs, &b_higgs); }; 
+void SetBranchAddress_mc_et(TTree * tree) { tree->SetBranchAddress("mc_et", &mc_et, &b_mc_et); };
+void SetBranchAddress_mc_eta(TTree * tree) { tree->SetBranchAddress("mc_eta", &mc_eta, &b_mc_eta); };
+void SetBranchAddress_mc_phi(TTree * tree) { tree->SetBranchAddress("mc_phi", &mc_phi, &b_mc_phi); };
+void SetBranchAddress_fsr_et(TTree * tree) { tree->SetBranchAddress("fsr_et", &fsr_et, &b_fsr_et); };
+void SetBranchAddress_fsr_eta(TTree * tree) { tree->SetBranchAddress("fsr_eta", &fsr_eta, &b_fsr_eta); };
+void SetBranchAddress_fsr_phi(TTree * tree) { tree->SetBranchAddress("fsr_phi", &fsr_phi, &b_fsr_phi); };
+void SetBranchAddress_higgs(TTree * tree) { tree->SetBranchAddress("higgs", &higgs, &b_higgs); };
 
 // I/O
 //
-void Branch_gh_gen2reco1(TTree * tree) { tree->Branch("gh_gen2reco1",&gh_gen2reco1, "gh_gen2reco1/I");  }; 
-void Branch_gh_gen2reco2(TTree * tree) { tree->Branch("gh_gen2reco2",&gh_gen2reco2, "gh_gen2reco2/I");  }; 
-void Branch_gh_vbfq1_pdgid(TTree * tree) { tree->Branch("gh_vbfq1_pdgid",&gh_vbfq1_pdgid, "gh_vbfq1_pdgid/I");  }; 
-void Branch_gh_vbfq2_pdgid(TTree * tree) { tree->Branch("gh_vbfq2_pdgid",&gh_vbfq2_pdgid, "gh_vbfq2_pdgid/I");  }; 
-void Branch_gh_vh_pdgid(TTree * tree) { tree->Branch("gh_vh_pdgid",&gh_vh_pdgid, "gh_vh_pdgid/I");  }; 
-void Branch_gh_vh1_pdgid(TTree * tree) { tree->Branch("gh_vh1_pdgid",&gh_vh1_pdgid, "gh_vh1_pdgid/I");  }; 
-void Branch_gh_vh2_pdgid(TTree * tree) { tree->Branch("gh_vh2_pdgid",&gh_vh2_pdgid, "gh_vh2_pdgid/I");  }; 
+void Branch_gh_gen2reco1(TTree * tree) { tree->Branch("gh_gen2reco1",&gh_gen2reco1, "gh_gen2reco1/I");  };
+void Branch_gh_gen2reco2(TTree * tree) { tree->Branch("gh_gen2reco2",&gh_gen2reco2, "gh_gen2reco2/I");  };
+void Branch_gh_vbfq1_pdgid(TTree * tree) { tree->Branch("gh_vbfq1_pdgid",&gh_vbfq1_pdgid, "gh_vbfq1_pdgid/I");  };
+void Branch_gh_vbfq2_pdgid(TTree * tree) { tree->Branch("gh_vbfq2_pdgid",&gh_vbfq2_pdgid, "gh_vbfq2_pdgid/I");  };
+void Branch_gh_vh_pdgid(TTree * tree) { tree->Branch("gh_vh_pdgid",&gh_vh_pdgid, "gh_vh_pdgid/I");  };
+void Branch_gh_vh1_pdgid(TTree * tree) { tree->Branch("gh_vh1_pdgid",&gh_vh1_pdgid, "gh_vh1_pdgid/I");  };
+void Branch_gh_vh2_pdgid(TTree * tree) { tree->Branch("gh_vh2_pdgid",&gh_vh2_pdgid, "gh_vh2_pdgid/I");  };
 //void Branch_METcorrected(TTree * tree) { tree->Branch("METcorrected", "TClonesArray",&METcorrected, 32000, 0); }; //met at analysis step
-void Branch_gh_higgs_p4(TTree * tree) { tree->Branch("gh_higgs_p4", "TClonesArray",&gh_higgs_p4, 32000, 0); }; 
-void Branch_gh_pho1_p4(TTree * tree) { tree->Branch("gh_pho1_p4", "TClonesArray",&gh_pho1_p4, 32000, 0); }; 
-void Branch_gh_pho2_p4(TTree * tree) { tree->Branch("gh_pho2_p4", "TClonesArray",&gh_pho2_p4, 32000, 0); }; 
-void Branch_gh_vbfq1_p4(TTree * tree) { tree->Branch("gh_vbfq1_p4", "TClonesArray",&gh_vbfq1_p4, 32000, 0); }; 
-void Branch_gh_vbfq2_p4(TTree * tree) { tree->Branch("gh_vbfq2_p4", "TClonesArray",&gh_vbfq2_p4, 32000, 0); }; 
-void Branch_gh_vh1_p4(TTree * tree) { tree->Branch("gh_vh1_p4", "TClonesArray",&gh_vh1_p4, 32000, 0); }; 
-void Branch_gh_vh2_p4(TTree * tree) { tree->Branch("gh_vh2_p4", "TClonesArray",&gh_vh2_p4, 32000, 0); }; 
+void Branch_gh_higgs_p4(TTree * tree) { tree->Branch("gh_higgs_p4", "TClonesArray",&gh_higgs_p4, 32000, 0); };
+void Branch_gh_pho1_p4(TTree * tree) { tree->Branch("gh_pho1_p4", "TClonesArray",&gh_pho1_p4, 32000, 0); };
+void Branch_gh_pho2_p4(TTree * tree) { tree->Branch("gh_pho2_p4", "TClonesArray",&gh_pho2_p4, 32000, 0); };
+void Branch_gh_glu1_p4(TTree * tree) { tree->Branch("gh_glu1_p4", "TClonesArray",&gh_glu1_p4, 32000, 0); };
+void Branch_gh_glu2_p4(TTree * tree) { tree->Branch("gh_glu2_p4", "TClonesArray",&gh_glu2_p4, 32000, 0); };
+void Branch_gh_vbfq1_p4(TTree * tree) { tree->Branch("gh_vbfq1_p4", "TClonesArray",&gh_vbfq1_p4, 32000, 0); };
+void Branch_gh_vbfq2_p4(TTree * tree) { tree->Branch("gh_vbfq2_p4", "TClonesArray",&gh_vbfq2_p4, 32000, 0); };
+void Branch_gh_vh1_p4(TTree * tree) { tree->Branch("gh_vh1_p4", "TClonesArray",&gh_vh1_p4, 32000, 0); };
+void Branch_gh_vh2_p4(TTree * tree) { tree->Branch("gh_vh2_p4", "TClonesArray",&gh_vh2_p4, 32000, 0); };
 // vertex branches
-void Branch_vtx_std_sel(TTree * tree) { tree->Branch("vtx_std_sel", &vtx_std_sel, "vtx_std_sel/I"); }; 
-void Branch_vtx_std_evt_mva(TTree * tree) { tree->Branch("vtx_std_evt_mva", "std::vector<float>", &vtx_std_evt_mva); }; 
-void Branch_vtx_std_ranked_list(TTree * tree) { tree->Branch("vtx_std_ranked_list", "std::vector<std::vector<int> >", &vtx_std_ranked_list); }; 
-void Branch_pho_matchingConv(TTree * tree) { tree->Branch("pho_matchingConv", "std::vector<int>", &pho_matchingConv); }; 
+void Branch_vtx_std_sel(TTree * tree) { tree->Branch("vtx_std_sel", &vtx_std_sel, "vtx_std_sel/I"); };
+void Branch_vtx_std_evt_mva(TTree * tree) { tree->Branch("vtx_std_evt_mva", "std::vector<float>", &vtx_std_evt_mva); };
+void Branch_vtx_std_ranked_list(TTree * tree) { tree->Branch("vtx_std_ranked_list", "std::vector<std::vector<int> >", &vtx_std_ranked_list); };
+void Branch_pho_matchingConv(TTree * tree) { tree->Branch("pho_matchingConv", "std::vector<int>", &pho_matchingConv); };
 
 
-void SetBranchAddress_gh_gen2reco1(TTree * tree) { tree->SetBranchAddress("gh_gen2reco1", &gh_gen2reco1, &b_gh_gen2reco1); }; 
-void SetBranchAddress_gh_gen2reco2(TTree * tree) { tree->SetBranchAddress("gh_gen2reco2", &gh_gen2reco2, &b_gh_gen2reco2); }; 
-void SetBranchAddress_gh_vbfq1_pdgid(TTree * tree) { tree->SetBranchAddress("gh_vbfq1_pdgid", &gh_vbfq1_pdgid, &b_gh_vbfq1_pdgid); }; 
-void SetBranchAddress_gh_vbfq2_pdgid(TTree * tree) { tree->SetBranchAddress("gh_vbfq2_pdgid", &gh_vbfq2_pdgid, &b_gh_vbfq2_pdgid); }; 
-void SetBranchAddress_gh_vh_pdgid(TTree * tree) { tree->SetBranchAddress("gh_vh_pdgid", &gh_vh_pdgid, &b_gh_vh_pdgid); }; 
-void SetBranchAddress_gh_vh1_pdgid(TTree * tree) { tree->SetBranchAddress("gh_vh1_pdgid", &gh_vh1_pdgid, &b_gh_vh1_pdgid); }; 
-void SetBranchAddress_gh_vh2_pdgid(TTree * tree) { tree->SetBranchAddress("gh_vh2_pdgid", &gh_vh2_pdgid, &b_gh_vh2_pdgid); }; 
+void SetBranchAddress_gh_gen2reco1(TTree * tree) { tree->SetBranchAddress("gh_gen2reco1", &gh_gen2reco1, &b_gh_gen2reco1); };
+void SetBranchAddress_gh_gen2reco2(TTree * tree) { tree->SetBranchAddress("gh_gen2reco2", &gh_gen2reco2, &b_gh_gen2reco2); };
+void SetBranchAddress_gh_vbfq1_pdgid(TTree * tree) { tree->SetBranchAddress("gh_vbfq1_pdgid", &gh_vbfq1_pdgid, &b_gh_vbfq1_pdgid); };
+void SetBranchAddress_gh_vbfq2_pdgid(TTree * tree) { tree->SetBranchAddress("gh_vbfq2_pdgid", &gh_vbfq2_pdgid, &b_gh_vbfq2_pdgid); };
+void SetBranchAddress_gh_vh_pdgid(TTree * tree) { tree->SetBranchAddress("gh_vh_pdgid", &gh_vh_pdgid, &b_gh_vh_pdgid); };
+void SetBranchAddress_gh_vh1_pdgid(TTree * tree) { tree->SetBranchAddress("gh_vh1_pdgid", &gh_vh1_pdgid, &b_gh_vh1_pdgid); };
+void SetBranchAddress_gh_vh2_pdgid(TTree * tree) { tree->SetBranchAddress("gh_vh2_pdgid", &gh_vh2_pdgid, &b_gh_vh2_pdgid); };
 //void SetBranchAddress_METcorrected(TTree * tree) { tree->SetBranchAddress("METcorrected", &METcorrected, &b_METcorrected); }; //met at analysis step
-void SetBranchAddress_gh_higgs_p4(TTree * tree) { tree->SetBranchAddress("gh_higgs_p4", &gh_higgs_p4, &b_gh_higgs_p4); }; 
-void SetBranchAddress_gh_pho1_p4(TTree * tree) { tree->SetBranchAddress("gh_pho1_p4", &gh_pho1_p4, &b_gh_pho1_p4); }; 
-void SetBranchAddress_gh_pho2_p4(TTree * tree) { tree->SetBranchAddress("gh_pho2_p4", &gh_pho2_p4, &b_gh_pho2_p4); }; 
-void SetBranchAddress_gh_vbfq1_p4(TTree * tree) { tree->SetBranchAddress("gh_vbfq1_p4", &gh_vbfq1_p4, &b_gh_vbfq1_p4); }; 
-void SetBranchAddress_gh_vbfq2_p4(TTree * tree) { tree->SetBranchAddress("gh_vbfq2_p4", &gh_vbfq2_p4, &b_gh_vbfq2_p4); }; 
-void SetBranchAddress_gh_vh1_p4(TTree * tree) { tree->SetBranchAddress("gh_vh1_p4", &gh_vh1_p4, &b_gh_vh1_p4); }; 
-void SetBranchAddress_gh_vh2_p4(TTree * tree) { tree->SetBranchAddress("gh_vh2_p4", &gh_vh2_p4, &b_gh_vh2_p4); }; 
-void SetBranchAddress_vtx_std_sel(TTree * tree) { tree->SetBranchAddress("vtx_std_sel", &vtx_std_sel, &b_vtx_std_sel); }; 
+void SetBranchAddress_gh_higgs_p4(TTree * tree) { tree->SetBranchAddress("gh_higgs_p4", &gh_higgs_p4, &b_gh_higgs_p4); };
+void SetBranchAddress_gh_pho1_p4(TTree * tree) { tree->SetBranchAddress("gh_pho1_p4", &gh_pho1_p4, &b_gh_pho1_p4); };
+void SetBranchAddress_gh_pho2_p4(TTree * tree) { tree->SetBranchAddress("gh_pho2_p4", &gh_pho2_p4, &b_gh_pho2_p4); };
+void SetBranchAddress_gh_glu1_p4(TTree * tree) { tree->SetBranchAddress("gh_glu1_p4", &gh_glu1_p4, &b_gh_glu1_p4); };
+void SetBranchAddress_gh_glu2_p4(TTree * tree) { tree->SetBranchAddress("gh_glu2_p4", &gh_glu2_p4, &b_gh_glu2_p4); };
+void SetBranchAddress_gh_vbfq1_p4(TTree * tree) { tree->SetBranchAddress("gh_vbfq1_p4", &gh_vbfq1_p4, &b_gh_vbfq1_p4); };
+void SetBranchAddress_gh_vbfq2_p4(TTree * tree) { tree->SetBranchAddress("gh_vbfq2_p4", &gh_vbfq2_p4, &b_gh_vbfq2_p4); };
+void SetBranchAddress_gh_vh1_p4(TTree * tree) { tree->SetBranchAddress("gh_vh1_p4", &gh_vh1_p4, &b_gh_vh1_p4); };
+void SetBranchAddress_gh_vh2_p4(TTree * tree) { tree->SetBranchAddress("gh_vh2_p4", &gh_vh2_p4, &b_gh_vh2_p4); };
+void SetBranchAddress_vtx_std_sel(TTree * tree) { tree->SetBranchAddress("vtx_std_sel", &vtx_std_sel, &b_vtx_std_sel); };
 void SetBranchAddress_vtx_std_evt_mva(TTree * tree) { tree->SetBranchAddress("vtx_std_evt_mva", &vtx_std_evt_mva, &b_vtx_std_evt_mva); };
 void SetBranchAddress_vtx_std_ranked_list(TTree * tree) { tree->SetBranchAddress("vtx_std_ranked_list", &vtx_std_ranked_list, &b_vtx_std_ranked_list); };
-void SetBranchAddress_pho_matchingConv(TTree * tree) { tree->SetBranchAddress("pho_matchingConv", &pho_matchingConv, &b_pho_matchingConv); }; 
+void SetBranchAddress_pho_matchingConv(TTree * tree) { tree->SetBranchAddress("pho_matchingConv", &pho_matchingConv, &b_pho_matchingConv); };
 
 void Branch_dipho_n(TTree * tree) { tree->Branch("dipho_n", &dipho_n, "dipho_n/I"); };
 void Branch_dipho_leadind(TTree * tree) { tree->Branch("dipho_leadind", &dipho_leadind, "dipho_leadind[dipho_n]/I"); };
@@ -1088,10 +1096,10 @@ void SetBranchAddress_shiftscaleMET_eta(TTree * tree) { tree->SetBranchAddress("
 void SetBranchAddress_shiftscaleMET_e(TTree * tree) { tree->SetBranchAddress("shiftscaleMET_e", &shiftscaleMET_e, &b_shiftscaleMET_e); };
 
 // ID branches
-void Branch_pho_mitmva(TTree * tree) { tree->Branch("pho_mitmva", "std::vector<std::vector<float> >", &pho_mitmva); }; 
+void Branch_pho_mitmva(TTree * tree) { tree->Branch("pho_mitmva", "std::vector<std::vector<float> >", &pho_mitmva); };
 
-void Branch_pho_tkiso_recvtx_030_002_0000_10_01(TTree * tree) { tree->Branch("pho_tkiso_recvtx_030_002_0000_10_01", "std::vector<std::vector<float> >", &pho_tkiso_recvtx_030_002_0000_10_01); }; 
-void Branch_pho_ZeeVal_tkiso_recvtx_030_002_0000_10_01(TTree * tree) { tree->Branch("pho_ZeeVal_tkiso_recvtx_030_002_0000_10_01", "std::vector<std::vector<float> >", &pho_ZeeVal_tkiso_recvtx_030_002_0000_10_01); }; 
+void Branch_pho_tkiso_recvtx_030_002_0000_10_01(TTree * tree) { tree->Branch("pho_tkiso_recvtx_030_002_0000_10_01", "std::vector<std::vector<float> >", &pho_tkiso_recvtx_030_002_0000_10_01); };
+void Branch_pho_ZeeVal_tkiso_recvtx_030_002_0000_10_01(TTree * tree) { tree->Branch("pho_ZeeVal_tkiso_recvtx_030_002_0000_10_01", "std::vector<std::vector<float> >", &pho_ZeeVal_tkiso_recvtx_030_002_0000_10_01); };
 void Branch_pho_tkiso_badvtx_040_002_0000_10_01(TTree * tree) { tree->Branch("pho_tkiso_badvtx_040_002_0000_10_01", &pho_tkiso_badvtx_040_002_0000_10_01, "pho_tkiso_badvtx_040_002_0000_10_01[pho_n]/F" ); };
 void Branch_pho_pfiso_charged_badvtx_04(TTree * tree) { tree->Branch("pho_pfiso_charged_badvtx_04", &pho_pfiso_charged_badvtx_04, "pho_pfiso_charged_badvtx_04[pho_n]/F" ); };
 void Branch_pho_pfiso_charged_badvtx_id(TTree * tree) { tree->Branch("pho_pfiso_charged_badvtx_id", &pho_pfiso_charged_badvtx_id, "pho_pfiso_charged_badvtx_id[pho_n]/I" ); };
@@ -1105,10 +1113,10 @@ void Branch_pho_drtotk_25_99(TTree * tree) { tree->Branch("pho_drtotk_25_99", &p
 void Branch_mu_glo_hasgsftrack(TTree * tree) { tree->Branch("mu_glo_hasgsftrack", &mu_glo_hasgsftrack, "mu_glo_hasgsftrack[mu_glo_n]/I" ); };
 void SetBranchAddress_mu_glo_hasgsftrack(TTree * tree) { tree->SetBranchAddress("mu_glo_hasgsftrack", &mu_glo_hasgsftrack, &b_mu_glo_hasgsftrack); };
 
-void SetBranchAddress_pho_mitmva(TTree * tree) { tree->SetBranchAddress("pho_mitmva", &pho_mitmva, &b_pho_mitmva); }; 
+void SetBranchAddress_pho_mitmva(TTree * tree) { tree->SetBranchAddress("pho_mitmva", &pho_mitmva, &b_pho_mitmva); };
 
-void SetBranchAddress_pho_tkiso_recvtx_030_002_0000_10_01(TTree * tree) { tree->SetBranchAddress("pho_tkiso_recvtx_030_002_0000_10_01", &pho_tkiso_recvtx_030_002_0000_10_01, &b_pho_tkiso_recvtx_030_002_0000_10_01); }; 
-void SetBranchAddress_pho_ZeeVal_tkiso_recvtx_030_002_0000_10_01(TTree * tree) { tree->SetBranchAddress("pho_ZeeVal_tkiso_recvtx_030_002_0000_10_01", &pho_ZeeVal_tkiso_recvtx_030_002_0000_10_01, &b_pho_ZeeVal_tkiso_recvtx_030_002_0000_10_01); }; 
+void SetBranchAddress_pho_tkiso_recvtx_030_002_0000_10_01(TTree * tree) { tree->SetBranchAddress("pho_tkiso_recvtx_030_002_0000_10_01", &pho_tkiso_recvtx_030_002_0000_10_01, &b_pho_tkiso_recvtx_030_002_0000_10_01); };
+void SetBranchAddress_pho_ZeeVal_tkiso_recvtx_030_002_0000_10_01(TTree * tree) { tree->SetBranchAddress("pho_ZeeVal_tkiso_recvtx_030_002_0000_10_01", &pho_ZeeVal_tkiso_recvtx_030_002_0000_10_01, &b_pho_ZeeVal_tkiso_recvtx_030_002_0000_10_01); };
 void SetBranchAddress_pho_tkiso_badvtx_040_002_0000_10_01(TTree * tree) { tree->SetBranchAddress("pho_tkiso_badvtx_040_002_0000_10_01", &pho_tkiso_badvtx_040_002_0000_10_01, &b_pho_tkiso_badvtx_040_002_0000_10_01); };
 
 void SetBranchAddress_pho_pfiso_charged_badvtx_04(TTree * tree) { tree->SetBranchAddress("pho_pfiso_charged_badvtx_04", &pho_pfiso_charged_badvtx_04, &b_pho_pfiso_charged_badvtx_04); };
@@ -1120,15 +1128,15 @@ void SetBranchAddress_pho_ZeeVal_tkiso_badvtx_id(TTree * tree) { tree->SetBranch
 void SetBranchAddress_pho_drtotk_25_99(TTree * tree) { tree->SetBranchAddress("pho_drtotk_25_99", &pho_drtotk_25_99, &b_pho_drtotk_25_99); };
 
 // These are missing in branchdef
-void Branch_rho(TTree * tree) { tree->Branch("rho", &rho, "rho/F"); }; 
-void Branch_gv_pos(TTree * tree) { tree->Branch("gv_pos", "TClonesArray",&gv_pos, 32000, 0); }; 
-void Branch_gv_n(TTree * tree) { tree->Branch("gv_n",&gv_n, "gv_n/I"); }; 
+void Branch_rho(TTree * tree) { tree->Branch("rho", &rho, "rho/F"); };
+void Branch_gv_pos(TTree * tree) { tree->Branch("gv_pos", "TClonesArray",&gv_pos, 32000, 0); };
+void Branch_gv_n(TTree * tree) { tree->Branch("gv_n",&gv_n, "gv_n/I"); };
 void Branch_pu_n(TTree * tree) { tree->Branch("pu_n", &pu_n, "pu_n/I"); };
-void Branch_pu_zpos		(TTree * tree) { tree->Branch("pu_zpos", "std::vector<float>", &pu_zpos		); }; 
-void Branch_pu_sumpt_lowpt	(TTree * tree) { tree->Branch("pu_sumpt_lowpt", "std::vector<float>", &pu_sumpt_lowpt	); }; 
-void Branch_pu_sumpt_highpt	(TTree * tree) { tree->Branch("pu_sumpt_highpt", "std::vector<float>", &pu_sumpt_highpt	); }; 
-void Branch_pu_ntrks_lowpt	(TTree * tree) { tree->Branch("pu_ntrks_lowpt", "std::vector<int>", &pu_ntrks_lowpt	); }; 
-void Branch_pu_ntrks_highpt  (TTree * tree) { tree->Branch("pu_ntrks_highpt" ,  "std::vector<int>", &pu_ntrks_highpt ); }; 
+void Branch_pu_zpos		(TTree * tree) { tree->Branch("pu_zpos", "std::vector<float>", &pu_zpos		); };
+void Branch_pu_sumpt_lowpt	(TTree * tree) { tree->Branch("pu_sumpt_lowpt", "std::vector<float>", &pu_sumpt_lowpt	); };
+void Branch_pu_sumpt_highpt	(TTree * tree) { tree->Branch("pu_sumpt_highpt", "std::vector<float>", &pu_sumpt_highpt	); };
+void Branch_pu_ntrks_lowpt	(TTree * tree) { tree->Branch("pu_ntrks_lowpt", "std::vector<int>", &pu_ntrks_lowpt	); };
+void Branch_pu_ntrks_highpt  (TTree * tree) { tree->Branch("pu_ntrks_highpt" ,  "std::vector<int>", &pu_ntrks_highpt ); };
 
 void Branch_pho_cic6cutlevel_lead(TTree * tree) { tree->Branch("pho_cic6cutlevel_lead", "std::vector<std::vector<Short_t> >", &pho_cic6cutlevel_lead); };
 void Branch_pho_cic6passcuts_lead(TTree * tree) { tree->Branch("pho_cic6passcuts_lead", "std::vector<std::vector<std::vector<UInt_t> > >", &pho_cic6passcuts_lead); };
@@ -1152,9 +1160,9 @@ void Branch_pho_cutlevel_sublead(TTree * tree) { tree->Branch("pho_cutlevel_subl
 void Branch_pho_passcuts_sublead(TTree * tree) { tree->Branch("pho_passcuts_sublead", "std::vector<std::vector<std::vector<UInt_t> > >", &pho_passcuts_sublead); };
 
 
-void SetBranchAddress_rho(TTree * tree) { tree->SetBranchAddress("rho", &rho, &b_rho); }; 
-void SetBranchAddress_gv_n(TTree * tree) { tree->SetBranchAddress("gv_n", &gv_n, &b_gv_n); }; 
-void SetBranchAddress_gv_pos(TTree * tree) { tree->SetBranchAddress("gv_pos", &gv_pos, &b_gv_pos); }; 
+void SetBranchAddress_rho(TTree * tree) { tree->SetBranchAddress("rho", &rho, &b_rho); };
+void SetBranchAddress_gv_n(TTree * tree) { tree->SetBranchAddress("gv_n", &gv_n, &b_gv_n); };
+void SetBranchAddress_gv_pos(TTree * tree) { tree->SetBranchAddress("gv_pos", &gv_pos, &b_gv_pos); };
 void SetBranchAddress_pu_n(TTree * tree) { tree->SetBranchAddress("pu_n", &pu_n, &b_pu_n); };
 void SetBranchAddress_pu_zpos(TTree * tree) { tree->SetBranchAddress("pu_zpos", &pu_zpos, &b_pu_zpos); };
 void SetBranchAddress_pu_sumpt_lowpt(TTree * tree) { tree->SetBranchAddress("pu_sumpt_lowpt", &pu_sumpt_lowpt, &b_pu_sumpt_lowpt); };
@@ -1249,7 +1257,7 @@ int IEta (double eta){
 void getIetaIPhi(int phoid, int & ieta, int & iphi ) const ;
 bool CheckSphericalPhoton(int ieta, int iphi) const;
 bool CheckSphericalPhoton(int phoind) const;
- 
+
 #ifdef NewFeatures
 #include "Marco/plotInteractive_h.h"
 #endif
