@@ -2241,6 +2241,8 @@ void PhotonAnalysis::ReducedOutputTree(LoopAll &l, TTree * outputTree)
     l.Branch_gh_higgs_p4( outputTree );
     l.Branch_gh_pho1_p4( outputTree );
     l.Branch_gh_pho2_p4( outputTree );
+    l.Branch_gh_glu1_p4( outputTree );
+    l.Branch_gh_glu2_p4( outputTree );
     l.Branch_gh_vbfq1_p4( outputTree );
     l.Branch_gh_vbfq2_p4( outputTree );
     l.Branch_gh_vh1_p4( outputTree );
@@ -2464,6 +2466,9 @@ void PhotonAnalysis::SetNullHiggs(LoopAll& l){
 
     ((TLorentzVector *)l.gh_pho1_p4->At(0))->SetXYZT(0,0,0,0);
     ((TLorentzVector *)l.gh_pho2_p4->At(0))->SetXYZT(0,0,0,0);
+
+    ((TLorentzVector *)l.gh_glu1_p4->At(0))->SetXYZT(0,0,0,0);
+    ((TLorentzVector *)l.gh_glu2_p4->At(0))->SetXYZT(0,0,0,0);
 
     ((TLorentzVector *)l.gh_vbfq1_p4->At(0))->SetXYZT(0,0,0,0);
     ((TLorentzVector *)l.gh_vbfq2_p4->At(0))->SetXYZT(0,0,0,0);
