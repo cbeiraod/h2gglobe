@@ -2489,10 +2489,12 @@ bool PhotonAnalysis::FindHiggsObjects(LoopAll& l){
     int higgsind=-1;
     int mc1=-1;
     int mc2=-1;
+    int mc3=-1;
+    int mc4=-1;
     int i1=-1;
     int i2=-1;
 
-    l.FindMCHiggsPhotons( higgsind,  mc1,  mc2,  i1,  i2 );
+    l.FindMCHiggsPhotons( higgsind,  mc1,  mc2,  i1,  i2, mc3, mc4);
 
 
     if(higgsind!=-1) {
@@ -2513,6 +2515,16 @@ bool PhotonAnalysis::FindHiggsObjects(LoopAll& l){
         TLorentzVector * mcpho2 = (TLorentzVector *) l.gp_p4->At(mc2);
         ((TLorentzVector *)l.gh_pho2_p4->At(0))->SetXYZT(mcpho2->Px(),mcpho2->Py(),mcpho2->Pz(),mcpho2->E());
     } else { ((TLorentzVector *)l.gh_pho2_p4->At(0))->SetXYZT(0,0,0,0); }
+
+    if(mc3!=-1) {
+        TLorentzVector * mcglu1 = (TLorentzVector *) l.gp_p4->At(mc3);
+        ((TLorentzVector *)l.gh_glu1_p4->At(0))->SetXYZT(mcglu1->Px(),mcglu1->Py(),mcglu1->Pz(),mcglu1->E());
+    } else { ((TLorentzVector *)l.gh_glu1_p4->At(0))->SetXYZT(0,0,0,0); }
+
+    if(mc4!=-1) {
+        TLorentzVector * mcglu2 = (TLorentzVector *) l.gp_p4->At(mc4);
+        ((TLorentzVector *)l.gh_glu2_p4->At(0))->SetXYZT(mcglu2->Px(),mcglu2->Py(),mcglu2->Pz(),mcglu2->E());
+    } else { ((TLorentzVector *)l.gh_glu2_p4->At(0))->SetXYZT(0,0,0,0); }
 
 
     int vbfq1=-100;

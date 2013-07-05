@@ -4521,7 +4521,7 @@ bool LoopAll::FindMCLeptons(int index, int& mc1, int& mc2, int& pho, int type) {
   // 22 1
 }
 
-bool LoopAll::FindMCHiggsPhotons(int& higgsind, int& mc1, int& mc2, int& i1, int& i2 )
+bool LoopAll::FindMCHiggsPhotons(int& higgsind, int& mc1, int& mc2, int& i1, int& i2, int& mc3, int& mc4)
 {
     bool is_mcmatched = false;
 
@@ -4531,11 +4531,16 @@ bool LoopAll::FindMCHiggsPhotons(int& higgsind, int& mc1, int& mc2, int& i1, int
     int pho1stat3 = -1;
     int pho2stat3 = -1;
 
+    vector<int> protonInd;
+
     for ( int i = 0; i< gp_n ; i++ ){
         int pid        = gp_pdgid[i];
         int status     = gp_status[i];
 
-        if (pid == 25) {
+        if (pid == 2212 && status == 3)
+          protonInd.push_back(i);
+
+        if (pid == 25 || pid == 39) {
             if(status==2) higgsstat2=i;
             if(status==3) higgsstat3=higgsind=i;
             continue;
@@ -4553,6 +4558,19 @@ bool LoopAll::FindMCHiggsPhotons(int& higgsind, int& mc1, int& mc2, int& i1, int
         if ( (gp_mother[i]==pho1stat3 || gp_mother[i]==pho2stat3) && mc1 < 0 ) { mc1  = i; }
         else if ( (gp_mother[i]==pho1stat3 || gp_mother[i]==pho2stat3) && mc2 < 0 ) { mc2  = i; break; }
 
+    }
+
+    for ( int i = 0; i< gp_n ; i++ )
+    {
+      int status     = gp_status[i];
+      if (status != 3) continue;
+      int pid        = gp_pdgid[i];
+
+      if (gp_mother[i] == protonInd[0] || gp_mother[i] == protonInd[1])
+      {
+        if(mc3 < 0) mc3 = i;
+        else if (mc4 < 0) {mc4 = i; break;}
+      }
     }
 
     if(higgsstat2 == -1) return is_mcmatched;
