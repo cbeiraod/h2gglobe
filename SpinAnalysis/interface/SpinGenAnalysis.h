@@ -18,37 +18,32 @@
 // ------------------------------------------------------------------------------------
 class SpinGenAnalysis : public StatAnalysis
 {
- public:
+public:
+	SpinGenAnalysis();
+	virtual ~SpinGenAnalysis();
 
-    SpinGenAnalysis();
-    virtual ~SpinGenAnalysis();
+	virtual const std::string & name() const { return name_; };
 
-    virtual const std::string & name() const { return name_; };
+	// LoopAll analysis interface implementation
+	void GetBranches(TTree *t, std::set<TBranch *>& s );
+	bool SkimEvents(LoopAll&, int);
+	void Init(LoopAll&);
+	void Term(LoopAll&);
 
-    // LoopAll analysis interface implementation
-    void GetBranches(TTree *t, std::set<TBranch *>& s );
-    bool SkimEvents(LoopAll&, int);
-    void Init(LoopAll&);
-    void Term(LoopAll&);
+	bool AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentzVector & gP4, float & mass, float & evweight, int & category,
+	int & diphoton_id,
+	bool & isCorrectVertex,
+	float &kinematic_bdtout,
+	bool isSyst=false,
+	float syst_shift=0., bool skipSelection=false,
+	BaseGenLevelSmearer *genSys=0, BaseSmearer *phoSys=0, BaseDiPhotonSmearer * diPhoSys=0);
 
-    bool AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentzVector & gP4, float & mass, float & evweight, int & category,
-		      int & diphoton_id,
-		      bool & isCorrectVertex,
-		      float &kinematic_bdtout,
-		      bool isSyst=false,
-		      float syst_shift=0., bool skipSelection=false,
-		      BaseGenLevelSmearer *genSys=0, BaseSmearer *phoSys=0, BaseDiPhotonSmearer * diPhoSys=0);
+	void FillRooContainer(LoopAll& l, int cur_type, float mass, float diphotonMVA,
+	int category, float weight, bool isCorrectVertex, int diphoton_id);
 
-    void FillRooContainer(LoopAll& l, int cur_type, float mass, float diphotonMVA,
-			  int category, float weight, bool isCorrectVertex, int diphoton_id);
-
-    bool fillGhBranches, useGenJets;
-    bool analyzeJetVariablesOnly;
 protected:
-
-    void fillGenDiphoton(TLorentzVector & lead_p4, TLorentzVector & sublead_p4, TLorentzVector & Higgs, LoopAll &l);
-    void fillControlPlots(const TLorentzVector & lead_p4, const  TLorentzVector & sublead_p4, const TLorentzVector & Higgs,
-			  int category, float evweight, LoopAll & l );
+	void fillControlPlots(const TLorentzVector & lead_p4, const  TLorentzVector & sublead_p4, const TLorentzVector & Higgs,
+	int category, float evweight, LoopAll & l );
 
 };
 
