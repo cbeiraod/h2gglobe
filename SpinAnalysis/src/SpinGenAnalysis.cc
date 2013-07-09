@@ -49,12 +49,12 @@ void SpinGenAnalysis::GetBranches(TTree *t, std::set<TBranch *>& s )
 
 // ----------------------------------------------------------------------------------------------------
 bool SpinGenAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLorentzVector & gP4, float & mass, float & evweight,
-int & category, int & diphoton_id,
-bool & isCorrectVertex,
-float &kinematic_bdtout,
-bool isSyst,
-float syst_shift, bool skipSelection,
-BaseGenLevelSmearer *genSys, BaseSmearer *phoSys, BaseDiPhotonSmearer * diPhoSys)
+		int & category, int & diphoton_id,
+		bool & isCorrectVertex,
+		float &kinematic_bdtout,
+		bool isSyst,
+		float syst_shift, bool skipSelection,
+		BaseGenLevelSmearer *genSys, BaseSmearer *phoSys, BaseDiPhotonSmearer * diPhoSys)
 {
 	assert( isSyst || !skipSelection );
 
@@ -67,13 +67,44 @@ BaseGenLevelSmearer *genSys, BaseSmearer *phoSys, BaseDiPhotonSmearer * diPhoSys
 	TLorentzVector* pho2  = (TLorentzVector*) l.gh_pho2_p4->At(0);
 	
 	TLorentzVector diphoton = *pho1 + *pho2;
+	
+	TLorentzVector* pho1_boosted, pho2_boosted, part1_boosted, part2_boosted;
+	pho1_boosted  =  pho1->Clone();
+	pho2_boosted  =  pho2->Clone();
+	part1_boosted = part1->Clone();
+	part2_boosted = part2->Clone();
+	
+	TVector3 boost = diphoton.BoostVector();
+	pho1_boosted->Boost(-boost);
+	pho2_boosted->Boost(-boost);
+	part1_boosted->Boost(-boost);
+	part2_boosted->Boost(-boost);
+	
+	TVector3 gg_SQA = part1_boosted->Vect() - part2_boosted->Vect();
+	gg_SQA = gg_SQA.Unit();
+	
+	{
+		q = pho1_boosted.Vect();
+		Double_t ptot2 = gg_SQA.Mag2()*q.Mag2();
+		if(ptot2 == 0)
+			gg_costh = 0;
+		else
+		{
+			Double_t arg = gg_SQA.Dot(q)/TMath::Sqrt(ptot2);
+			if(arg >  1.0) arg =  1.0;
+			if(arg < -1.0) arg = -1.0;
+			gg_costh = arg;
+		}
+	}
+	
+	//gg_costh = gg_SQA.angle(pho1_boosted.Vect());
 
 	return true;
 }
 
 // ----------------------------------------------------------------------------------------------------
 void SpinGenAnalysis::FillRooContainer(LoopAll& l, int cur_type, float mass, float diphotonMVA,
-int category, float weight, bool isCorrectVertex, int diphoton_id)
+		int category, float weight, bool isCorrectVertex, int diphoton_id)
 {
 	l.FillTree("run",l.run);
 	l.FillTree("event",l.event);
@@ -84,6 +115,8 @@ int category, float weight, bool isCorrectVertex, int diphoton_id)
 	l.FillTree("diphotonMVA",diphotonMVA);
 
 	l.FillTree("sampleType",cur_type);
+	
+	l.FillTree("costh", gg_costh);
 
 	TLorentzVector lead_p4, sublead_p4, Higgs;
 	float lead_r9 = 0., sublead_r9 = 0.;

@@ -40,6 +40,8 @@ public:
 
 	void FillRooContainer(LoopAll& l, int cur_type, float mass, float diphotonMVA,
 	int category, float weight, bool isCorrectVertex, int diphoton_id);
+	
+	double gg_costh;
 
 protected:
 	void fillControlPlots(const TLorentzVector & lead_p4, const  TLorentzVector & sublead_p4, const TLorentzVector & Higgs,

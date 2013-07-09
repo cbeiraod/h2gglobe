@@ -16,3 +16,7 @@ type=2 name=leadPt
 type=2 name=subleadPt
 type=2 name=leadR9
 type=2 name=subleadR9
+
+type=3 name=costh
+type=3 name=spin_weight
+type=0 name=spin_category
