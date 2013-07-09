@@ -42,6 +42,7 @@ public:
 	int category, float weight, bool isCorrectVertex, int diphoton_id);
 	
 	double gg_costh;
+	double weight1, weight2;
 
 protected:
 	void fillControlPlots(const TLorentzVector & lead_p4, const  TLorentzVector & sublead_p4, const TLorentzVector & Higgs,

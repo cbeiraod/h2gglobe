@@ -1,13 +1,9 @@
 #include "../interface/SpinGenAnalysis.h"
 
-#include "../interface/JetHandler.h"
-
 #include "Sorters.h"
 #include "PhotonReducedInfo.h"
 #include <iostream>
 #include <algorithm>
-
-#include "CMGTools/External/interface/PileupJetIdentifier.h"
 
 #define PADEBUG 0
 
@@ -68,11 +64,11 @@ bool SpinGenAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLore
 	
 	TLorentzVector diphoton = *pho1 + *pho2;
 	
-	TLorentzVector* pho1_boosted, pho2_boosted, part1_boosted, part2_boosted;
-	pho1_boosted  =  pho1->Clone();
-	pho2_boosted  =  pho2->Clone();
-	part1_boosted = part1->Clone();
-	part2_boosted = part2->Clone();
+	TLorentzVector *pho1_boosted, *pho2_boosted, *part1_boosted, *part2_boosted;
+	pho1_boosted  = (TLorentzVector*) pho1->Clone();
+	pho2_boosted  = (TLorentzVector*) pho2->Clone();
+	part1_boosted = (TLorentzVector*)part1->Clone();
+	part2_boosted = (TLorentzVector*)part2->Clone();
 	
 	TVector3 boost = diphoton.BoostVector();
 	pho1_boosted->Boost(-boost);
@@ -84,7 +80,7 @@ bool SpinGenAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLore
 	gg_SQA = gg_SQA.Unit();
 	
 	{
-		q = pho1_boosted.Vect();
+		TVector3 q = pho1_boosted->Vect();
 		Double_t ptot2 = gg_SQA.Mag2()*q.Mag2();
 		if(ptot2 == 0)
 			gg_costh = 0;
@@ -96,8 +92,18 @@ bool SpinGenAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLore
 			gg_costh = arg;
 		}
 	}
-	
+
 	//gg_costh = gg_SQA.angle(pho1_boosted.Vect());
+
+	//gg_costh should follow a distribution of the type: 5/32 (1 + 6 costh^2 + costh^4)
+	//we want to reweight it to: 3/8 (1 + costh^2) && 5/12 (1 + costh^4)
+	// weight1 = (3/8 (1 + costh^2)) / (5/32 (1 + 6 costh^2 + costh^4))
+	// weight2 = (5/12 (1 + costh^4)) / (5/32 (1 + 6 costh^2 + costh^4))
+	
+	double costh2 = gg_costh*gg_costh;
+	double costh4 = costh2*costh2;
+	weight1 = 12./5. * (1. + costh2)/(1. + 6*costh2 + costh4);
+	weight2 = 8./3. * (1. + costh4)/(1. + 6*costh2 + costh4);
 
 	return true;
 }
@@ -117,6 +123,8 @@ void SpinGenAnalysis::FillRooContainer(LoopAll& l, int cur_type, float mass, flo
 	l.FillTree("sampleType",cur_type);
 	
 	l.FillTree("costh", gg_costh);
+	l.FillTree("spin_weight1", weight1);
+	l.FillTree("spin_weight2", weight2);
 
 	TLorentzVector lead_p4, sublead_p4, Higgs;
 	float lead_r9 = 0., sublead_r9 = 0.;
