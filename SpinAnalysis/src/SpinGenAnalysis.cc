@@ -60,6 +60,13 @@ BaseGenLevelSmearer *genSys, BaseSmearer *phoSys, BaseDiPhotonSmearer * diPhoSys
 
 	int cur_type = l.itype[l.current];
 	float sampleweight = l.sampleContainer[l.current_sample_index].weight();
+	
+	TLorentzVector* part1 = (TLorentzVector*) l.gh_glu1_p4->At(0);
+	TLorentzVector* part2 = (TLorentzVector*) l.gh_glu2_p4->At(0);
+	TLorentzVector* pho1  = (TLorentzVector*) l.gh_pho1_p4->At(0);
+	TLorentzVector* pho2  = (TLorentzVector*) l.gh_pho2_p4->At(0);
+	
+	TLorentzVector diphoton = *pho1 + *pho2;
 
 	return true;
 }
@@ -69,14 +76,12 @@ void SpinGenAnalysis::FillRooContainer(LoopAll& l, int cur_type, float mass, flo
 int category, float weight, bool isCorrectVertex, int diphoton_id)
 {
 	l.FillTree("run",l.run);
-	l.FillTree("lumis",l.lumis);
 	l.FillTree("event",l.event);
-	l.FillTree("mass",mass);
+	l.FillTree("lumis",l.lumis);
+	l.FillTree("CMS_hgg_mass",mass);
 	l.FillTree("weight",weight);
 	l.FillTree("category",category);
 	l.FillTree("diphotonMVA",diphotonMVA);
-	l.FillTree("vbfMVA",myVBF_MVA);
-	l.FillTree("VBFevent", VBFevent);
 
 	l.FillTree("sampleType",cur_type);
 

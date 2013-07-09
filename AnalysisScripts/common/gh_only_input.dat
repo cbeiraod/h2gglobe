@@ -18,6 +18,8 @@ bx
 gh_higgs_p4:1
 gh_pho1_p4:1
 gh_pho2_p4:1
+gh_glu1_p4:1
+gh_glu2_p4:1
 gh_vbfq1_p4:1
 gh_vbfq2_p4:1
 ## gp_n:1

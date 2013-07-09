@@ -1,0 +1,18 @@
+## Declare Branches for flat tree which will be saved in output
+## delare:
+## 	type=0,1,2,3 (int,unsigned int,float,double)
+## 	name=name
+
+type=0 name=run
+type=0 name=event
+type=0 name=lumis
+type=2 name=CMS_hgg_mass
+type=2 name=weight
+type=0 name=category
+type=2 name=diphotonMVA
+type=0 name=sampleType
+
+type=2 name=leadPt
+type=2 name=subleadPt
+type=2 name=leadR9
+type=2 name=subleadR9
