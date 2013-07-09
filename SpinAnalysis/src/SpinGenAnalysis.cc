@@ -148,10 +148,9 @@ int category, float evweight, LoopAll & l )
 		fillControlPlots( lead_p4, sublead_p4, Higgs, -1, evweight, l );
 	}
 
-	float mass = Higgs.M();
 	l.FillHist("all_mass",category+1, Higgs.M(), evweight);
 
-	if( mass>=massMin && mass<=massMax  )
+	if( Higgs.M()>=massMin && Higgs.M()<=massMax  )
 	{
 		l.FillHist("mass",category+1, Higgs.M(), evweight);
 		l.FillHist("eta",category+1, Higgs.Eta(), evweight);
@@ -166,15 +165,6 @@ int category, float evweight, LoopAll & l )
 		l.FillHist("pho2_pt",category+1,sublead_p4.Pt(), evweight);
 		l.FillHist("pho_eta",category+1,sublead_p4.Eta(), evweight);
 		l.FillHist("pho2_eta",category+1,sublead_p4.Eta(), evweight);
-
-		if (VBFevent)
-		{
-			float myweight =  1;
-			float sampleweight = l.sampleContainer[l.current_sample_index].weight();
-			if(evweight*sampleweight!=0) myweight=evweight/sampleweight;
-
-			l.FillCutPlots(category+1,1,"_sequential",evweight,myweight);
-		}
 	}
 }
 
