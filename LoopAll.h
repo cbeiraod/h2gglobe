@@ -717,6 +717,7 @@ TClonesArray *gh_vbfq1_p4;
 TClonesArray *gh_vbfq2_p4;
 TClonesArray *gh_vh1_p4;
 TClonesArray *gh_vh2_p4;
+std::vector<int> gh_status3_pid;
 //TClonesArray *METcorrected;  //met at analysis step
 
 Float_t rho;
@@ -791,6 +792,7 @@ TBranch *b_gh_vbfq1_p4;
 TBranch *b_gh_vbfq2_p4;
 TBranch *b_gh_vh1_p4;
 TBranch *b_gh_vh2_p4;
+TBranch *b_gh_status3_pid;
 TBranch * b_dipho_n;
 TBranch * b_dipho_leadind;
 TBranch * b_dipho_subleadind;
@@ -984,6 +986,7 @@ void Branch_gh_pho1_p4(TTree * tree) { tree->Branch("gh_pho1_p4", "TClonesArray"
 void Branch_gh_pho2_p4(TTree * tree) { tree->Branch("gh_pho2_p4", "TClonesArray",&gh_pho2_p4, 32000, 0); };
 void Branch_gh_glu1_p4(TTree * tree) { tree->Branch("gh_glu1_p4", "TClonesArray",&gh_glu1_p4, 32000, 0); };
 void Branch_gh_glu2_p4(TTree * tree) { tree->Branch("gh_glu2_p4", "TClonesArray",&gh_glu2_p4, 32000, 0); };
+void Branch_gh_status3_pid(TTree * tree) { tree->Branch("gh_status3_pid", &gh_status3_pid); };
 void Branch_gh_vbfq1_p4(TTree * tree) { tree->Branch("gh_vbfq1_p4", "TClonesArray",&gh_vbfq1_p4, 32000, 0); };
 void Branch_gh_vbfq2_p4(TTree * tree) { tree->Branch("gh_vbfq2_p4", "TClonesArray",&gh_vbfq2_p4, 32000, 0); };
 void Branch_gh_vh1_p4(TTree * tree) { tree->Branch("gh_vh1_p4", "TClonesArray",&gh_vh1_p4, 32000, 0); };
@@ -1008,6 +1011,7 @@ void SetBranchAddress_gh_pho1_p4(TTree * tree) { tree->SetBranchAddress("gh_pho1
 void SetBranchAddress_gh_pho2_p4(TTree * tree) { tree->SetBranchAddress("gh_pho2_p4", &gh_pho2_p4, &b_gh_pho2_p4); };
 void SetBranchAddress_gh_glu1_p4(TTree * tree) { tree->SetBranchAddress("gh_glu1_p4", &gh_glu1_p4, &b_gh_glu1_p4); };
 void SetBranchAddress_gh_glu2_p4(TTree * tree) { tree->SetBranchAddress("gh_glu2_p4", &gh_glu2_p4, &b_gh_glu2_p4); };
+void SetBranchAddress_gh_status3_pid(TTree * tree) { tree->SetBranchAddress("gh_status3_pid", &gh_status3_pid, &b_gh_status3_pid); };
 void SetBranchAddress_gh_vbfq1_p4(TTree * tree) { tree->SetBranchAddress("gh_vbfq1_p4", &gh_vbfq1_p4, &b_gh_vbfq1_p4); };
 void SetBranchAddress_gh_vbfq2_p4(TTree * tree) { tree->SetBranchAddress("gh_vbfq2_p4", &gh_vbfq2_p4, &b_gh_vbfq2_p4); };
 void SetBranchAddress_gh_vh1_p4(TTree * tree) { tree->SetBranchAddress("gh_vh1_p4", &gh_vh1_p4, &b_gh_vh1_p4); };

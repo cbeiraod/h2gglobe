@@ -3731,6 +3731,7 @@ void LoopAll::DefineUserBranches()
     BRANCH_DICT(gh_pho2_p4);
     BRANCH_DICT(gh_glu1_p4);
     BRANCH_DICT(gh_glu2_p4);
+    BRANCH_DICT(gh_status3_pid);
     BRANCH_DICT(gh_vbfq1_p4);
     BRANCH_DICT(gh_vbfq2_p4);
     BRANCH_DICT(gh_vh1_p4);
@@ -4571,6 +4572,19 @@ bool LoopAll::FindMCHiggsPhotons(int& higgsind, int& mc1, int& mc2, int& i1, int
         if(mc3 < 0) mc3 = i;
         else if (mc4 < 0) {mc4 = i; break;}
       }
+    }
+
+    for ( int i = 0; i< gp_n ; i++ )
+    {
+      int status     = gp_status[i];
+      if (status != 3) continue;
+      int pid        = gp_pdgid[i];
+			if (pid != 21) continue;
+			
+			if (gp_mother[i] == mc3)
+				mc3 = i;
+			if (gp_mother[i] == mc4)
+				mc4 = i;
     }
 
     if(higgsstat2 == -1) return is_mcmatched;

@@ -2209,6 +2209,8 @@ void PhotonAnalysis::ReducedOutputTree(LoopAll &l, TTree * outputTree)
     l.gh_glu2_p4->Clear();
     ((*l.gh_glu2_p4)[0]) = new TLorentzVector();
 
+    l.gh_status3_pid.clear();// = new std::vector<int>;
+
     l.gh_vbfq1_p4 = new TClonesArray("TLorentzVector", 1);
     l.gh_vbfq1_p4->Clear();
     ((*l.gh_vbfq1_p4)[0]) = new TLorentzVector();
@@ -2244,6 +2246,7 @@ void PhotonAnalysis::ReducedOutputTree(LoopAll &l, TTree * outputTree)
     l.Branch_gh_pho2_p4( outputTree );
     l.Branch_gh_glu1_p4( outputTree );
     l.Branch_gh_glu2_p4( outputTree );
+    l.Branch_gh_status3_pid( outputTree );
     l.Branch_gh_vbfq1_p4( outputTree );
     l.Branch_gh_vbfq2_p4( outputTree );
     l.Branch_gh_vh1_p4( outputTree );
@@ -2526,6 +2529,22 @@ bool PhotonAnalysis::FindHiggsObjects(LoopAll& l){
         TLorentzVector * mcglu2 = (TLorentzVector *) l.gp_p4->At(mc4);
         ((TLorentzVector *)l.gh_glu2_p4->At(0))->SetXYZT(mcglu2->Px(),mcglu2->Py(),mcglu2->Pz(),mcglu2->E());
     } else { ((TLorentzVector *)l.gh_glu2_p4->At(0))->SetXYZT(0,0,0,0); }
+    
+    l.gh_status3_pid.clear();
+    for(int i = 0; i < l.gp_n; i++)
+    {
+      if(l.gp_status[i] == 3)
+      {
+        l.gh_status3_pid.push_back(l.gp_pdgid[i]);
+      }
+    }
+    
+    std::cout << l.gh_status3_pid.size() << ": ";
+    for(UInt_t i = 0; i < l.gh_status3_pid.size(); i++)
+    {
+      std::cout << l.gh_status3_pid[i] << ", ";
+    }
+    std::cout << endl;
 
 
     int vbfq1=-100;
