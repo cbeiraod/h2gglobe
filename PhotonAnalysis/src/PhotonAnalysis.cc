@@ -1802,7 +1802,7 @@ bool PhotonAnalysis::SelectEventsReduction(LoopAll& l, int jentry)
     if(PADEBUG)  cout << " ****************** SelectEventsReduction " << endl;
     // require at least two reconstructed photons to store the event
 
-    if( pho_acc.size() < 2 ) { return false; }
+    //if( pho_acc.size() < 2 ) { return false; }
 
     vtxAna_.clear();
     l.vtx_std_ranked_list->clear();
@@ -1929,6 +1929,7 @@ bool PhotonAnalysis::SelectEventsReduction(LoopAll& l, int jentry)
 	postProcessJets(l,ivtx);
     }
 
+    return true;
     return oneKinSelected;
 }
 
@@ -2005,13 +2006,13 @@ bool PhotonAnalysis::SkimEvents(LoopAll& l, int jentry)
 
     l.b_pho_n->GetEntry(jentry);
     if( l.pho_n < 2 ) {
-        return false;
+        //return false;
     }
 
     if( skimOnDiphoN && l.typerun == l.kFill ) {
 	l.b_dipho_n->GetEntry(jentry);
 	if( l.dipho_n < 1 ) {
-	    return false;
+	    //return false;
 	}
     }
 
@@ -2033,13 +2034,13 @@ bool PhotonAnalysis::SkimEvents(LoopAll& l, int jentry)
 	    l.b_hlt1_bit->GetEntry(jentry);
 	    l.b_hlt_path_names_HLT1->GetEntry(jentry);
 	    if( !  isel->pass( *(l.hlt_path_names_HLT1), *(l.hlt1_bit) ) ) {
-		return false;
+		//return false;
 	    }
 	} else {
 	    l.b_hlt_bit->GetEntry(jentry);
 	    l.b_hlt_path_names_HLT->GetEntry(jentry);
 	    if( !  isel->pass( *(l.hlt_path_names_HLT), *(l.hlt_bit) ) ) {
-		return false;
+		//return false;
 	    }
 	}
 	//l.countersred[trigCounter_]++;
@@ -2055,7 +2056,7 @@ bool PhotonAnalysis::SkimEvents(LoopAll& l, int jentry)
 
         if(selectprocess){
             if(processtoselect!=l.process_id){
-                return false;
+                //return false;
             }
         }
 
@@ -2077,9 +2078,9 @@ bool PhotonAnalysis::SkimEvents(LoopAll& l, int jentry)
                 if( mother_id <= 25 ) { ++np; }
                 if( np >= 2 ) { break; }
             }
-            if( np >= 2 && ! keepPP ) { return false; }
+            /*if( np >= 2 && ! keepPP ) { return false; }
             if( np == 1 && ! keepPF ) { return false; }
-            if( np == 0 && ! keepFF ) { return false; }
+            if( np == 0 && ! keepFF ) { return false; }*/
         }
     }
 

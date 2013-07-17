@@ -99,6 +99,7 @@ bool SpinGenAnalysis::AnalyseEvent(LoopAll& l, Int_t jentry, float weight, TLore
 	//we want to reweight it to: 3/8 (1 + costh^2) && 5/12 (1 + costh^4)
 	// weight1 = (3/8 (1 + costh^2)) / (5/32 (1 + 6 costh^2 + costh^4))
 	// weight2 = (5/12 (1 + costh^4)) / (5/32 (1 + 6 costh^2 + costh^4))
+	// [1]*(1+6*x*x+x*x*x*x)
 	
 	double costh2 = gg_costh*gg_costh;
 	double costh4 = costh2*costh2;
@@ -135,7 +136,7 @@ void SpinGenAnalysis::FillRooContainer(LoopAll& l, int cur_type, float mass, flo
 	l.FillTree("leadR9",lead_r9);
 	l.FillTree("subleadR9",sublead_r9);
 
-	SpinGenAnalysis::fillControlPlots(lead_p4, sublead_p4, Higgs, category, weight, l);
+	//SpinGenAnalysis::fillControlPlots(lead_p4, sublead_p4, Higgs, category, weight, l);
 }
 
 // ----------------------------------------------------------------------------------------------------
