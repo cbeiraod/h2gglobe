@@ -41,6 +41,7 @@ StatAnalysis::StatAnalysis()  :
     fillOptTree = false;
     doFullMvaFinalTree = false;
     doSpinAnalysis = false;
+    doSpinLamda = false;
 
     splitwzh=false;
     sigmaMrv=0.;
@@ -491,6 +492,15 @@ void StatAnalysis::Init(LoopAll& l)
             
             l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_gg_grav_mass_m%d",sig),nDataBins);
             l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_qq_grav_mass_m%d",sig),nDataBins);
+            
+            if(doSpinLamda)
+            {
+              l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_gg_grav_mass_m%d_lamda2",sig),nDataBins);
+              l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_gg_grav_mass_m%d_lamda4",sig),nDataBins);
+              
+              //l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_qq_grav_mass_m%d_lamda2",sig),nDataBins);
+              //l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_qq_grav_mass_m%d_lamda4",sig),nDataBins);
+            }
                                                                             
             l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_gg_grav_mass_m%d_rv",sig),nDataBins);
             l.rooContainer->CreateDataSet("CMS_hgg_mass",Form("sig_qq_grav_mass_m%d_rv",sig),nDataBins);
@@ -1360,6 +1370,23 @@ void StatAnalysis::FillRooContainer(LoopAll& l, int cur_type, float mass, float 
         l.rooContainer->InputDataPoint("sig_"+GetSignalLabel(cur_type, l),category,mass,weight);
         if (isCorrectVertex) l.rooContainer->InputDataPoint("sig_"+GetSignalLabel(cur_type, l)+"_rv",category,mass,weight);
         else l.rooContainer->InputDataPoint("sig_"+GetSignalLabel(cur_type, l)+"_wv",category,mass,weight);
+        
+        if (cur_type == -137)
+        {
+          //gg_costh = gg_SQA.angle(pho1_boosted.Vect());
+
+          //gg_costh should follow a distribution of the type: 5/32 (1 + 6 costh^2 + costh^4)
+	        //we want to reweight it to: 3/8 (1 + costh^2) && 5/12 (1 + costh^4)
+	        // weight1 = (3/8 (1 + costh^2)) / (5/32 (1 + 6 costh^2 + costh^4))
+	        // weight2 = (5/12 (1 + costh^4)) / (5/32 (1 + 6 costh^2 + costh^4))
+        	double costh2 = real_costh*real_costh;
+        	double costh4 = costh2*costh2;
+          
+          double lamda2_weight = 12./5. * (1. + costh2)/(1. + 6*costh2 + costh4);
+          double lamda4_weight = 8./3. * (1. + costh4)/(1. + 6*costh2 + costh4);
+          l.rooContainer->InputDataPoint("sig_"+GetSignalLabel(cur_type, l)+"_lamda2",category,mass,weight*lamda2_weight);
+          l.rooContainer->InputDataPoint("sig_"+GetSignalLabel(cur_type, l)+"_lamda4",category,mass,weight*lamda4_weight);
+        }
     }
     //if( category>=0 && fillOptTree ) {
 	//l.FillTree("run",l.run);
@@ -1548,6 +1575,42 @@ void StatAnalysis::computeSpinCategory(LoopAll &l, int &category, TLorentzVector
         cout << "ERROR -- cosThetaDef - " << cosThetaDef << " not recognised" << endl;
         exit(1);
     }
+    
+    
+  	TLorentzVector* part1 = (TLorentzVector*) l.gh_glu1_p4->At(0);
+  	TLorentzVector* part2 = (TLorentzVector*) l.gh_glu2_p4->At(0);
+  	TLorentzVector* pho1  = (TLorentzVector*) l.gh_pho1_p4->At(0);
+  	TLorentzVector* pho2  = (TLorentzVector*) l.gh_pho2_p4->At(0);
+	
+  	TLorentzVector diphoton = *pho1 + *pho2;
+	
+  	TLorentzVector *pho1_boosted, *pho2_boosted, *part1_boosted, *part2_boosted;
+  	pho1_boosted  = (TLorentzVector*) pho1->Clone();
+  	pho2_boosted  = (TLorentzVector*) pho2->Clone();
+  	part1_boosted = (TLorentzVector*)part1->Clone();
+  	part2_boosted = (TLorentzVector*)part2->Clone();
+	
+  	TVector3 boost = diphoton.BoostVector();
+  	pho1_boosted->Boost(-boost);
+  	pho2_boosted->Boost(-boost);
+  	part1_boosted->Boost(-boost);
+  	part2_boosted->Boost(-boost);
+	
+  	TVector3 gg_SQA = part1_boosted->Vect() - part2_boosted->Vect();
+  	gg_SQA = gg_SQA.Unit();
+	
+  	TVector3 q = pho1_boosted->Vect();
+  	Double_t ptot2 = gg_SQA.Mag2()*q.Mag2();
+  	if(ptot2 == 0)
+  		real_costh = 0;
+  	else
+  	{
+  		Double_t arg = gg_SQA.Dot(q)/TMath::Sqrt(ptot2);
+  		if(arg >  1.0) arg =  1.0;
+  		if(arg < -1.0) arg = -1.0;
+  		real_costh = arg;
+  	}
+    
 
     if (cosThetaCatBoundaries.size()!=nCosThetaCategories+1){
         cout << "ERROR - cosThetaCatBoundaries size does not correspond to nCosThetaCategories" << endl;

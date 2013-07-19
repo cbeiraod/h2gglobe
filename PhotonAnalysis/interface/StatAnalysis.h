@@ -66,6 +66,7 @@ class StatAnalysis : public PhotonAnalysis
     bool doFullMvaFinalTree;
     
     bool doSpinAnalysis;
+    bool doSpinLamda;
     int nCosThetaCategories;
     std::string cosThetaDef;
     std::vector<float> cosThetaCatBoundaries;
@@ -157,6 +158,8 @@ class StatAnalysis : public PhotonAnalysis
     int nVHhadCategories; 
     int nVHlepCategories; 
     int nVHmetCategories;
+    
+    double real_costh;
 
     // RooStuff
     RooContainer *rooContainer;
