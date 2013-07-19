@@ -1,1 +1,1 @@
-version="spin_studies"
+version="spin_lamdas"

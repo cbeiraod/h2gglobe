@@ -10,8 +10,8 @@
 #./submit_reduction.sh data2012_RERECO Photon_Run2012A_22Jan2013-v1_AOD 20
 ./submit_reduction.sh mc_spin2_summer12_s10 Graviton2PMGluGluToHToGG_M-125 10
 ./submit_reduction.sh mc_spin2_summer12_s10 Graviton2PMGluGluToHToGG_M-126 10
-./submit_reduction.sh mc_spin2_summer12_s10 Graviton2PMqqbarToHToGG_M-125.dat 10
-./submit_reduction.sh mc_spin2_summer12_s10 Graviton2PMqqbarToHToGG_M-126.dat 10
+./submit_reduction.sh mc_spin2_summer12_s10 Graviton2PMqqbarToHToGG_M-125 10
+./submit_reduction.sh mc_spin2_summer12_s10 Graviton2PMqqbarToHToGG_M-126 10
 
 
 
