@@ -1371,7 +1371,7 @@ void StatAnalysis::FillRooContainer(LoopAll& l, int cur_type, float mass, float 
         if (isCorrectVertex) l.rooContainer->InputDataPoint("sig_"+GetSignalLabel(cur_type, l)+"_rv",category,mass,weight);
         else l.rooContainer->InputDataPoint("sig_"+GetSignalLabel(cur_type, l)+"_wv",category,mass,weight);
         
-        if (cur_type == -137)
+        if (doSpinLamda && (cur_type == -137 || cur_type == -177))
         {
           //gg_costh = gg_SQA.angle(pho1_boosted.Vect());
 
