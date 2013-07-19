@@ -18,9 +18,9 @@ rescaleDZforVtxMVA=0
 saveBSTrees_=0
 
 ## Preselection cuts
-#presel_scet1=15.
-#presel_scet2=15.
-#presel_maxeta=2.5
+presel_scet1=15.
+presel_scet2=15.
+presel_maxeta=2.5
 
 ##### ## selection of the di-photon pair to use for vertex analysis
 ##### presel_ecaliso_eb=999.
