@@ -17,8 +17,8 @@ includeVHhad=0
 includeVHlep=0
 includeVHmet=0
 
-doPtSpinSmear=1
-doPtSpinSyst=1
+doPtSpinSmear=0
+doPtSpinSyst=0
 ptspinHist=spinanalysis/ptweights.root
 
 doInterferenceSmear=0
