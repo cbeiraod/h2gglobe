@@ -1,0 +1,21 @@
+CMS-HGG spin lamda card for the bkg for use with combine. RooDataHist+Parametrised Background
+
+------------------------------
+imax *
+jmax *
+kmax *
+------------------------------
+shapes bkg         *        CMS-HGG.root cms_hgg_workspace:pdf_data_pol_model_8TeV_$CHANNEL
+------------------------------
+
+bin     cat0 cat1 cat2 cat3 cat4 cat5 cat6 cat7 cat8 cat9 cat10 cat11 cat12 cat13 cat14 cat15 cat16 cat17 cat18 cat19 
+observation    -1   -1   -1   -1   -1   -1   -1   -1   -1   -1   -1   -1   -1   -1   -1   -1   -1   -1   -1   -1   
+------------------------------
+
+bin        cat0   cat1   cat2   cat3   cat4   cat5   cat6   cat7   cat8   cat9   cat10   cat11   cat12   cat13   cat14   cat15   cat16   cat17   cat18   cat19
+process     bkg    bkg    bkg    bkg    bkg    bkg    bkg    bkg    bkg    bkg    bkg    bkg    bkg    bkg    bkg    bkg    bkg    bkg    bkg    bkg
+process       1      1      1      1      1      1      1      1      1      1      1      1      1      1      1      1      1      1      1      1
+rate          1      1      1      1      1      1      1      1      1      1      1      1      1      1      1      1      1      1      1      1
+
+------------------------------
+lumi lnN  1.044  1.044  1.044  1.044  1.044  1.044  1.044  1.044  1.044  1.044  1.044  1.044  1.044  1.044  1.044  1.044  1.044  1.044  1.044  1.044
