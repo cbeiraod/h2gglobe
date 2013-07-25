@@ -1576,40 +1576,47 @@ void StatAnalysis::computeSpinCategory(LoopAll &l, int &category, TLorentzVector
         exit(1);
     }
     
-    
-  	TLorentzVector* part1 = (TLorentzVector*) l.gh_glu1_p4->At(0);
-  	TLorentzVector* part2 = (TLorentzVector*) l.gh_glu2_p4->At(0);
-  	TLorentzVector* pho1  = (TLorentzVector*) l.gh_pho1_p4->At(0);
-  	TLorentzVector* pho2  = (TLorentzVector*) l.gh_pho2_p4->At(0);
+    int cur_type = l.itype[l.current];
+    if (doSpinLamda && (cur_type == -137 || cur_type == -177))
+    {
+      TLorentzVector* part1 = (TLorentzVector*) l.gh_glu1_p4->At(0);
+      TLorentzVector* part2 = (TLorentzVector*) l.gh_glu2_p4->At(0);
+      TLorentzVector* pho1  = (TLorentzVector*) l.gh_pho1_p4->At(0);
+      TLorentzVector* pho2  = (TLorentzVector*) l.gh_pho2_p4->At(0);
 	
-  	TLorentzVector diphoton = *pho1 + *pho2;
+      TLorentzVector diphoton = *pho1 + *pho2;
 	
-  	TLorentzVector *pho1_boosted, *pho2_boosted, *part1_boosted, *part2_boosted;
-  	pho1_boosted  = (TLorentzVector*) pho1->Clone();
-  	pho2_boosted  = (TLorentzVector*) pho2->Clone();
-  	part1_boosted = (TLorentzVector*)part1->Clone();
-  	part2_boosted = (TLorentzVector*)part2->Clone();
+      TLorentzVector *pho1_boosted, *pho2_boosted, *part1_boosted, *part2_boosted;
+      pho1_boosted  = (TLorentzVector*) pho1->Clone();
+      pho2_boosted  = (TLorentzVector*) pho2->Clone();
+      part1_boosted = (TLorentzVector*)part1->Clone();
+      part2_boosted = (TLorentzVector*)part2->Clone();
 	
-  	TVector3 boost = diphoton.BoostVector();
-  	pho1_boosted->Boost(-boost);
-  	pho2_boosted->Boost(-boost);
-  	part1_boosted->Boost(-boost);
-  	part2_boosted->Boost(-boost);
+      TVector3 boost = diphoton.BoostVector();
+      pho1_boosted->Boost(-boost);
+      pho2_boosted->Boost(-boost);
+      part1_boosted->Boost(-boost);
+      part2_boosted->Boost(-boost);
 	
-  	TVector3 gg_SQA = part1_boosted->Vect() - part2_boosted->Vect();
-  	gg_SQA = gg_SQA.Unit();
+      TVector3 gg_SQA = part1_boosted->Vect() - part2_boosted->Vect();
+      gg_SQA = gg_SQA.Unit();
 	
-  	TVector3 q = pho1_boosted->Vect();
-  	Double_t ptot2 = gg_SQA.Mag2()*q.Mag2();
-  	if(ptot2 == 0)
-  		real_costh = 0;
-  	else
-  	{
-  		Double_t arg = gg_SQA.Dot(q)/TMath::Sqrt(ptot2);
-  		if(arg >  1.0) arg =  1.0;
-  		if(arg < -1.0) arg = -1.0;
-  		real_costh = arg;
-  	}
+      TVector3 q = pho1_boosted->Vect();
+      Double_t ptot2 = gg_SQA.Mag2()*q.Mag2();
+      if(ptot2 == 0)
+        real_costh = 0;
+      else
+      {
+        Double_t arg = gg_SQA.Dot(q)/TMath::Sqrt(ptot2);
+        if(arg >  1.0) arg =  1.0;
+        if(arg < -1.0) arg = -1.0;
+        real_costh = arg;
+      }
+    }
+    else
+    {
+      real_costh = -10;
+    }
     
 
     if (cosThetaCatBoundaries.size()!=nCosThetaCategories+1){
